@@ -2,29 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
     public float speed = 10;
 
+    Vector3 direction = Vector3.zero;
+    Vector3 velocity = Vector3.zero;
+    Vector3 position = Vector3.zero;
+
     // Start is called before the first frame update
     void Start()
     {
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        velocity = direction * speed * Time.deltaTime;
+        position += velocity;
+
+        transform.position = position;
 
     }
 
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Vector3 direction = context.ReadValue<Vector2>();
+        direction = context.ReadValue<Vector2>();
 
-        transform.Translate(direction * speed * Time.deltaTime);
+        if (direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(Vector3.back, direction);
+        }
+        
     }
 }
