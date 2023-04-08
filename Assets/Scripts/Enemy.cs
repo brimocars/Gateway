@@ -5,20 +5,26 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private float movespeed;
-    private float startPosition;
+    [SerializeField]
+    private Vector3 position;
     private float distance;
-    private Rigitbody2d rgb2d;
+    private bool right = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        rgb2d - GetComponent<Rigitbody2d>();
-        startPosition = rgb2d.position.x;
+        position = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        rgb2d.MovePosition(new Vector2((Mathf.Sin((2 * Mathf.PI * (Time.time*linearSpeed/distance)) - (Mathf.PI / 2)) * (distance/2) + (distance/2))+startPosition,rgb2d.position.y));
+        if(right == true){
+            position.x += 10;
+        }
+        else{
+            position.x -= 10;
+        }
+        position = transform.position;
     }
 }
