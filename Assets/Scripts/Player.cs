@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        velocity = direction * speed * Time.deltaTime;
+        velocity = speed * Time.deltaTime * direction;
         position += velocity;
 
         transform.position = position;
