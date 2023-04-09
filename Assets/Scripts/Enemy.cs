@@ -4,27 +4,34 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private Rigidbody rb; 
     private float movespeed;
     [SerializeField]
-    private Vector3 position;
     private float distance;
-    private bool right = true;
+    private bool right = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        position = transform.position;
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = new Vector3(-1,0,0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(right == true){
-            position.x += 10;
+        if (right == false){
+            if(transform.position.x <= -6 ) {
+                right = true;
+                rb.velocity = new Vector3(1,0,0); 
+            }
         }
         else{
-            position.x -= 10;
+            if(transform.position.x >= 6 ) {
+                right = false;
+                rb.velocity = new Vector3(-1,0,0); 
+            }
         }
-        position = transform.position;
+        transform.position += rb.velocity;
     }
 }
