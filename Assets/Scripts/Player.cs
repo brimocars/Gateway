@@ -17,13 +17,14 @@ public class Player : MonoBehaviour
     Vector2 position = Vector2.zero;
 
     Rigidbody2D rb;
+    BoxCollider2D box;
 
-    //Vector3 gravity = new Vector3(0, -1, 0);
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        box = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -61,15 +62,24 @@ public class Player : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        rb.velocity += new Vector2(0, 0.5f);
+        if (context.phase == InputActionPhase.Performed)
+        {
+            if (IsGrounded())
+            {
+                rb.velocity += new Vector2(0, 1f);
+            }
+        }
     }
 
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
-        {
-            rb.velocity = Vector3.zero;
-        }
+
+    }
+
+    private bool IsGrounded()
+    {
+        RaycastHit2D raycast = Physics2D.BoxCast(box.bounds.center, box.bounds.size, 0f, Vector2.down, 1f);
+        return raycast.collider.tag == "Floor";
     }
 }
