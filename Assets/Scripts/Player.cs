@@ -13,15 +13,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject spirit;
 
-    Vector3 direction = Vector3.zero;
-    Vector3 position = Vector3.zero;
+    Vector2 direction = Vector2.zero;
+    Vector2 position = Vector2.zero;
 
-    Rigidbody rb;
+    Rigidbody2D rb;
+
+    //Vector3 gravity = new Vector3(0, -1, 0);
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -59,6 +61,15 @@ public class Player : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        rb.velocity += new Vector3(0, 0.5f);
+        rb.velocity += new Vector2(0, 0.5f);
+    }
+
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 }
